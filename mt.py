@@ -2,7 +2,7 @@ import queue
 import socket
 import threading
 import re
-import resources as r
+import mtresources as r
 import random
 
 ####CONSTANTS####
@@ -29,7 +29,6 @@ class ListenerThread:
             if self.numconn != MAX_CONN or MAX_CONN == 0:
                 self.connections.append(socket)
                 self.numconn += 1
-                socket.send(random.choice(r.allCredits))
                 success = True
         return success
 
