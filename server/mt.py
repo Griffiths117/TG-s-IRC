@@ -32,7 +32,27 @@ class ListenerThread:
                 success = True
         return success
 
-            
+    def remove(self, socket):
+        with self.lock:
+            self.connections.remove(socket)
+            self.numconn -= 1
+
+    def removeIP(self, ip):
+        socket = False
+        with self.lock:
+            for conn in self.connections:
+                if conn.getpeername()[0] == ip:
+                    
+                    try:
+                        conn.close()
+                    except:
+                        pass
+                    
+                    socket = conn
+                    break
+                    
+        if socket != False:
+            self.remove(socket)
 
     #Called whenever a new message is receved, also disconnects any inactive
     #sockets
@@ -54,7 +74,8 @@ class ListenerThread:
 #RecvManager to handle the creation of new threads to manage input from clients
 class RecvManager:
 
-    def __init__(self, data, maxconnections = 0):
+    def __init__(self, data, listenerObject, maxconnections = 0):
+        self.lo = listenerObject
         self.data = data
         self.maxconnections = maxconnections
 
@@ -64,17 +85,19 @@ class RecvManager:
         s.listen(self.maxconnections)
         while True:
             c, addr = s.accept()
-            recvObj = RecvThread(self.data, c)
+            recvObj = RecvThread(self.data, self.lo, c)
             recvThread = threading.Thread(target=recvObj.main)
             recvThread.start()
 
 #RecvThread, created by RecvManager to serve a specific client          
 class RecvThread:
 
-    def __init__(self, data, s):
+    def __init__(self, data, listenerObject, s):
         self.data = data
         self.s = s
+        self.lo = listenerObject
         self.nickname = "LEGACY/UNSUPPORTED CLIENT"
+        self.IP = s.getpeername()[0]
         
     def main(self):
         while True:
@@ -104,10 +127,12 @@ class RecvThread:
     def disconnectHandler(self, safe=True):
         if safe:
             self.data.put(r.leaveMsg.format(self.nickname))
+            self.lo.removeIP(self.IP)
             self.s.close()
             quit()
         else:
             self.data.put(r.unsafeLeaveMsg.format(self.nickname))
+            self.lo.removeIP(self.IP)
             quit()
 
 #Main Code Block, sets everything up and also manages listening for new clients
@@ -116,7 +141,7 @@ def main():
     listenerObject = ListenerThread(data)
     listenerThread = threading.Thread(target=listenerObject.main)
     listenerThread.start()
-    recvObj = RecvManager(data)
+    recvObj = RecvManager(data, listenerObject)
     recvThread = threading.Thread(target=recvObj.main)
     recvThread.start()
     s = socket.socket()
