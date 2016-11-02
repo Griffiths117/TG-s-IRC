@@ -69,6 +69,9 @@ class ListenerThread:
     def main(self):
         while True:
             data = self.data.get()
+            if data == "!!INTERNAL=SHUTDOWN!!":
+                print("shutting down")
+                return
             self.send(data)
 
 #RecvManager to handle the creation of new threads to manage input from clients
