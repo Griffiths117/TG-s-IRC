@@ -1,4 +1,4 @@
-import unittest
+#import unittest
 import mt
 import queue
 import _thread
@@ -20,10 +20,38 @@ class DummySocket:
     def getpeername(self):
         return self.id, 0
     
-class TestMt(unittest.TestCase):
+##class TestMt(unittest.TestCase):
+##
+##    def test_listener_thread(self):
+##        data = queue.Queue()
+##        s1 = DummySocket("0")
+##        s2 = DummySocket("1")
+##
+##        listenerObj = mt.ListenerThread(data)
+##        
+##        def sender():
+##            time.sleep(1)
+##            data.put("Hello, World")
+##            time.sleep(0.1)
+##            listenerObj.add(s2)
+##            time.sleep(1)
+##            data.put("Hello, World 2")
+##            time.sleep(1)
+##            listenerObj.removeIP("0")
+##            data.put("Hello, World 3")
+##            
+##            data.put("!!INTERNAL=SHUTDOWN!!")
+##
+##        listenerObj.add(s1)
+##        _thread.start_new_thread(sender, ())
+##        listenerObj.main()
+##
+##        self.assertEqual(s1.lastMsg, "CLOSED")
+##        self.assertEqual(s2.lastMsg, b"Hello, World 3\r\n")
 
-    def test_listener_thread(self):
-        data = queue.Queue()
+
+def test_listener_thread(self):
+            data = queue.Queue()
         s1 = DummySocket("0")
         s2 = DummySocket("1")
 
@@ -46,12 +74,9 @@ class TestMt(unittest.TestCase):
         _thread.start_new_thread(sender, ())
         listenerObj.main()
 
-        self.assertEqual(s1.lastMsg, "CLOSED")
-        self.assertEqual(s2.lastMsg, b"Hello, World 3\r\n")
+        assert s1.lastMsg == "CLOSED")
+        assert s2.lastMsg == b"Hello, World 3\r\n")
 
-
-if __name__ == '__main__':
-    unittest.main()
                 
         
         
