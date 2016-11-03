@@ -2,8 +2,4 @@ language: python
 python:
     - "3.5"
 
-script:
-  -ls
-  -cd server
-  -ls
-  -nosetest mtUnitTests.py
+script: nosetests /server/mtUnitTests.py
