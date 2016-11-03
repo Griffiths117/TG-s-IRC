@@ -50,7 +50,7 @@ class DummySocket:
 ##        self.assertEqual(s2.lastMsg, b"Hello, World 3\r\n")
 
 
-def test_listener_thread(self):
+def test_listener_thread():
         data = queue.Queue()
         s1 = DummySocket("0")
         s2 = DummySocket("1")
