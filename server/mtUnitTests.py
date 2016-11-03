@@ -74,5 +74,5 @@ def test_listener_thread(self):
         _thread.start_new_thread(sender, ())
         listenerObj.main()
 
-        assert s1.lastMsg == "CLOSED")
-        assert s2.lastMsg == b"Hello, World 3\r\n")
+        assert s1.lastMsg == "CLOSED"
+        assert s2.lastMsg == b"Hello, World 3\r\n"
