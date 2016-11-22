@@ -143,9 +143,9 @@ def shutdownHook():
 
 #===========================================================================#  
 PROGRAM_TITLE = 'TG\'s IRC'
-SERVER_IP = input("Enter IP:").strip()
+SERVER_IP = BasicInputDialog("Enter IP:").get()
 NICKNAME = BasicInputDialog("Enter Nickname:").get()
-THEME = Theme(("Consolas", 10), ['green', 'cyan', 'white', 'black'])
+THEME = Theme(("Consolas", 10), ['aqua', 'cyan', 'white', 'black'])
 
 
 RECV_SOCKET = socket.socket()
