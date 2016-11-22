@@ -19,7 +19,7 @@ allStart = [startAscii]
 
 ####MESSAGE RESOURCES####
 spamWarning = "Please stop spamming"
-joinMsg = "<SERVER>: {0} has joined the chat"
-leaveMsg = "<SERVER>: {0} has disconnected from the chat"
-unsafeLeaveMsg = "<SERVER>: {0} has unexpectedly disconnected from the chat"
-nickChangeMsg = "<SERVER>: {0} has changed their nickname to {1}"
+joinMsg = "server={0} has joined the chat"
+leaveMsg = "server={0} has disconnected from the chat"
+unsafeLeaveMsg = "server={0} has unexpectedly disconnected from the chat"
+nickChangeMsg = "server={0} has changed their nickname to {1}"
